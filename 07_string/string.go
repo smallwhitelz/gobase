@@ -23,10 +23,20 @@ func main() {
 	fmt.Println(len(str))
 	var str2 = "你好"
 	var str3 = "golang"
-	// 拼接
-	fmt.Println(str2 + "," + str3)
+	// 少量拼接：使用 + 操作符即可。
+	// 大量拼接：使用 strings.Builder，尤其在循环中。
+	// 需要格式化：使用 fmt.Sprintf。
+	// 拼接切片：使用 strings.Join。
+	fmt.Println(str2 + "," + str3) // 每次拼接都会创建新的字符串副本
 	a := fmt.Sprintf("%s,%s", str2, str3)
 	fmt.Println(a)
+
+	var builder strings.Builder // 避免了重复创建新的字符串副本，Builder 是可变的，能够动态扩展容量，减少内存分配。
+	builder.WriteString("Hello, ")
+	builder.WriteString("world!")
+	result := builder.String()
+	fmt.Println("builder：", result)
+
 	// 分割，有字符串分割为数组
 	var str4 = "hello,world,golang"
 	var arr = strings.Split(str4, ",")

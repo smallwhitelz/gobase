@@ -55,17 +55,24 @@ func main() {
 }
 
 func ShowSlice() {
-	s1 := []int{1, 2, 3, 4}
-	s2 := s1[2:]
+	s1 := []int{1, 2, 3, 4} // cap = 4
+	s2 := s1[2:]            // cap = 原 cap - 起始下标 = 4 - 2
 	fmt.Printf("s1:%v len(s1): %d cap(s1): %d\n", s1, len(s1), cap(s1))
 	fmt.Printf("s2:%v len(s2): %d cap(s2): %d\n", s2, len(s2), cap(s2))
 	s2[0] = 100
+	// s2 与 s1 共用同一个底层数组，从索引 2、3 处映射。
+	//s2[0] = 100 实际上是把底层数组的 a[2] 改成了 100。
 	fmt.Printf("s1:%v len(s1): %d cap(s1): %d\n", s1, len(s1), cap(s1))
 	fmt.Printf("s2:%v len(s2): %d cap(s2): %d\n", s2, len(s2), cap(s2))
 	s2 = append(s2, 999)
+	// 此时 len(s2)==2 且 cap(s2)==2，再 append 时容量不足，会分配一个新底层数组。
+	// Go 的扩容策略通常是“新 cap = 旧 cap ×2”，所以新切片的 cap 变成了 4。
+	//新底层数组内拷贝了原来 [100,4]，然后再追加 999。
 	fmt.Printf("s1:%v len(s1): %d cap(s1): %d\n", s1, len(s1), cap(s1))
 	fmt.Printf("s2:%v len(s2): %d cap(s2): %d\n", s2, len(s2), cap(s2))
 	s2[1] = 19999
+	// 由于 s2 已经有了自己新的底层数组，后续对 s2 的修改不会再影响 s1。
+	// s2[1] = 19999 只改了新数组的第二个元素。
 	fmt.Printf("s1:%v len(s1): %d cap(s1): %d\n", s1, len(s1), cap(s1))
 	fmt.Printf("s2:%v len(s2): %d cap(s2): %d\n", s2, len(s2), cap(s2))
 }

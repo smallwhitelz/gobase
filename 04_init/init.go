@@ -16,6 +16,8 @@ import (
 //}
 
 // main函数作为程序主入口，一个程序只能有一个
+// 正式项目中，非常非常不建议使用init函数！！！！！！！
+// 如果你项目中有多个init，那么他会按照包的顺序去执行，这样很容易出现问题
 func main() {
 	fmt.Println(test_init.Age)
 	fmt.Println("我是main函数")
